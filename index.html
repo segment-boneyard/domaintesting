@@ -1,0 +1,47 @@
+<html>
+  <head>
+    <title>AJS tester</title>
+  </head>
+  <body>
+    <form method="GET">
+      <input type="text" name="writeKey" placeholder="Write key"/>
+      <button>Load</button>
+    </form>
+    <p></p>
+
+    <button onclick="analytics.track('Product Viewed')">Track: Product Viewed</button>
+    <button onclick="analytics.track('Checkout Started')">Track: Checkout Started</button>
+    <button onclick="analytics.track('Coupon Denied')">Track: Coupon Denied</button>
+    <br/>
+    <button onclick="analytics.page('Home')">Page: Home</button>
+    <button onclick="analytics.page('About')">Page: About</button>
+    <button onclick="analytics.page('Contact')">Page: Contact</button>
+    <br/>
+    <button onclick="analytics.identify('fathy')">Identify: fathy</button>
+    <button onclick="analytics.identify('spongebob')">Identify: spongebob</button>
+
+    <script>
+      const {searchParams} = new URL(document.location)
+      const writeKey = searchParams.get('writeKey')
+      const status = s => document.querySelector('p').innerText = s
+
+      document.querySelector('input').value = writeKey
+
+      if(writeKey) {
+        !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t,e){var n=document.createElement("script");n.type="text/javascript";n.async=!0;n.src="https://cdn.segment.com/analytics.js/v1/"+t+"/analytics.js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(n,a);analytics._loadOptions=e};analytics.SNIPPET_VERSION="4.1.0";
+          analytics.load(writeKey);
+          analytics.page();
+        }}();
+
+        status('loading ajs')
+
+        analytics.ready(() =>
+          status(`ajs ${analytics.VERSION} loaded, write key: ${analytics._integrations['Segment.io'].options.apiKey}`)
+        )
+      }
+      else {
+        status('ajs not loaded, enter a write key')
+      }
+    </script>
+  </body>
+</html>
